@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mots croisés – Préparation d’itinéraire</title>
+
+<style>
+:root{
+--primary:#1f2d3d;
+--accent:#e67e22;
+--success:#27ae60;
+--bg:#f4f6f9;
+}
+
+body{
+font-family:Segoe UI, Arial;
+background:var(--bg);
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:20px;
+}
+
+h1{color:var(--primary);}
+
+.container{
+display:flex;
+gap:40px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:20px;
+}
+
+#crossword{
+padding:10px;
+border-radius:6px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+background:#fff;
+}
+
+#grid{
+display:grid;
+grid-template-columns:repeat(20,30px);
+grid-template-rows:repeat(20,30px);
+}
+
+.cell{
+width:30px;
+height:30px;
+box-sizing:border-box;
+border:1px solid #333;
+background:white;
+position:relative;
+}
+
+.cell.black{
+background:#333;
+}
+
+.cell input{
+width:100%;
+height:100%;
+border:none;
+text-align:center;
+font-weight:bold;
+font-size:16px;
+text-transform:uppercase;
+outline:none;
+}
+
+.cell span{
+position:absolute;
+top:2px;
+left:2px;
+font-size:9px;
+font-weight:bold;
+}
+
+.clues{
+width:380px;
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+max-height:80vh;
+overflow:auto;
+}
+
+h3{
+color:var(--accent);
+margin-top:15px;
+border-bottom:2px solid var(--accent);
+}
+
+button{
+margin-top:20px;
+padding:10px 25px;
+font-weight:bold;
+background:var(--success);
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+.result{
+margin-top:15px;
+font-weight:bold;
+font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Préparation d’itinéraire – Mots croisés</h1>
+
+<div class="container">
+
+<div id="crossword">
+<div id="grid"></div>
+</div>
+
+<div class="clues">
+<h3>HORIZONTALES</h3>
+<ul id="h-clues"></ul>
+
+<h3>VERTICALES</h3>
+<ul id="v-clues"></ul>
+</div>
+
+</div>
+
+<button onclick="check()">Vérifier les réponses</button>
+<div class="result" id="result"></div>
+
+<script>
+
+const words = [
+
+{w:"DEPARTEMENTALE",r:1,c:1,d:"H",n:1,t:"Route gérée par le département."},
+{w:"NUMEROTATION",r:3,c:1,d:"H",n:3,t:"Identification chiffrée des routes."},
+{w:"CONSOMMATION",r:5,c:4,d:"H",n:5,t:"Volume de carburant utilisé."},
+{w:"EQUIPEMENTS",r:7,c:2,d:"H",n:7,t:"Matériel obligatoire du véhicule."},
+{w:"DISTANCIER",r:9,c:6,d:"H",n:9,t:"Outil donnant les distances."},
+{w:"ITINERAIRE",r:11,c:1,d:"H",n:11,t:"Trajet planifié."},
+{w:"CARROYAGE",r:13,c:5,d:"H",n:13,t:"Quadrillage d'une carte."},
+{w:"OBSTACLES",r:15,c:3,d:"H",n:15,t:"Ponts bas, tunnels, travaux."},
+{w:"ZFE",r:17,c:10,d:"H",n:17,t:"Zone à Faibles Émissions."},
+{w:"PEAGE",r:19,c:2,d:"H",n:19,t:"Droit de passage autoroutier."},
+
+{w:"AUTOROUTE",r:1,c:4,d:"V",n:2,t:"Voie rapide à chaussées séparées."},
+{w:"ECHELLE",r:1,c:10,d:"V",n:4,t:"Rapport carte / réalité."},
+{w:"CARTE",r:6,c:14,d:"V",n:6,t:"Représentation d’un territoire."},
+{w:"ATLAS",r:1,c:13,d:"V",n:8,t:"Recueil de cartes."},
+{w:"MICHELIN",r:10,c:2,d:"V",n:10,t:"Éditeur célèbre de cartes."},
+{w:"PONT",r:12,c:17,d:"V",n:12,t:"Ouvrage d'art."},
+{w:"LARGEUR",r:8,c:8,d:"V",n:14,t:"Dimension transversale."},
+{w:"LEGENDE",r:3,c:18,d:"V",n:16,t:"Explication des symboles."},
+{w:"COL",r:13,c:12,d:"V",n:18,t:"Passage en montagne."},
+{w:"ALTITUDE",r:1,c:6,d:"V",n:20,t:"Hauteur par rapport à la mer."},
+{w:"TONNAGE",r:8,c:15,d:"V",n:21,t:"Poids maximal autorisé."},
+{w:"PENTE",r:11,c:5,d:"V",n:22,t:"Inclinaison en %."}
+
+];
+
+const grid=document.getElementById("grid");
+
+for(let i=0;i<400;i++){
+let cell=document.createElement("div");
+cell.className="cell black";
+grid.appendChild(cell);
+}
+
+words.forEach(word=>{
+
+let clueList=document.getElementById(word.d==="H"?"h-clues":"v-clues");
+clueList.innerHTML+=`<li><strong>${word.n}.</strong> ${word.t} (${word.w.length})</li>`;
+
+for(let i=0;i<word.w.length;i++){
+
+let row=word.r+(word.d==="V"?i:0);
+let col=word.c+(word.d==="H"?i:0);
+let index=(row-1)*20+(col-1);
+let cell=grid.children[index];
+
+cell.classList.remove("black");
+
+if(i===0){
+let span=document.createElement("span");
+span.textContent=word.n;
+cell.appendChild(span);
+}
+
+if(!cell.querySelector("input")){
+let input=document.createElement("input");
+input.maxLength=1;
+input.dataset.letter=word.w[i];
+cell.appendChild(input);
+}
+}
+});
+
+let locked=false;
+
+function check(){
+
+if(locked) return;
+
+let total=0;
+let score=0;
+
+document.querySelectorAll("input").forEach(input=>{
+total++;
+if(input.value.toUpperCase()===input.dataset.letter){
+input.style.background="#d4edda";
+score++;
+}else{
+input.style.background="#f8d7da";
+}
+input.disabled=true;
+});
+
+document.getElementById("result").innerHTML=
+`Score : ${score} / ${total} — Exercice verrouillé.`;
+
+locked=true;
+}
+
+</script>
+</body>
+</html>
