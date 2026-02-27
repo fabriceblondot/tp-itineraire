@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>ÉVALUATION : Calculs de Transport</title>
+    <style>
+        /* Mise en page globale */
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+        .copie-eleve { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 6px solid #2c3e50; }
+        
+        /* En-tête */
+        header { text-align: center; border-bottom: 2px dashed #ccc; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { margin: 0; color: #2c3e50; text-transform: uppercase; font-size: 24px; }
+        .info { font-style: italic; color: #7f8c8d; margin-top: 5px; }
+        
+        /* Sections */
+        h2 { background-color: #eaf2f8; color: #2980b9; padding: 10px 15px; border-radius: 5px; margin-top: 30px; border-left: 5px solid #2980b9; }
+        .consigne { background: #fff3cd; color: #856404; padding: 10px; border-radius: 4px; font-size: 0.9em; margin-bottom: 15px; }
+        
+        /* Questions */
+        .question { margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #eee; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        input[type="text"], input[type="number"] { padding: 10px; width: 200px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; background-color: #fafafa; }
+        
+        /* BOUTON DE VALIDATION (Impossible à rater) */
+        .zone-validation { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 3px solid #eee; }
+        button#btn-valider {
+            background-color: #27ae60; color: white; border: none; padding: 20px 40px;
+            font-size: 22px; font-weight: bold; text-transform: uppercase; cursor: pointer;
+            border-radius: 8px; box-shadow: 0 4px 0 #219150; transition: transform 0.1s; width: 100%;
+        }
+        button#btn-valider:hover { background-color: #2ecc71; transform: translateY(-2px); }
+        button#btn-valider:active { transform: translateY(2px); box-shadow: none; }
+
+        /* Styles de correction */
+        .correct { border: 2px solid #27ae60 !important; background-color: #d4edda !important; color: #155724; }
+        .incorrect { border: 2px solid #e74c3c !important; background-color: #f8d7da !important; color: #721c24; }
+        .correction-msg { display: none; color: #c0392b; font-weight: bold; margin-top: 5px; font-size: 0.9em; }
+
+        /* Note finale */
+        #resultat-final { display: none; margin-top: 30px; text-align: center; background: #2c3e50; color: white; padding: 20px; border-radius: 10px; }
+        .note-xxl { font-size: 48px; font-weight: bold; display: block; margin: 10px 0; color: #f1c40f; }
+    </style>
+</head>
+<body>
+
+<div class="copie-eleve">
+    <header>
+        <h1>📝 Évaluation : Calculs Transport</h1>
+        <div class="info">Durée : 30 min | Note sur 20</div>
+    </header>
+
+    <div class="consigne">
+        ⚠️ <strong>Attention :</strong> Utilisez un point (.) ou une virgule (,) pour les décimales. Ne mettez pas les unités (km, h) dans les cases.
+    </div>
+
+    <h2>1. Conversions Rapides (4 pts)</h2>
+    
+    <div class="question">
+        <label>1.1) Convertir 1h 45 min en heures décimales :</label>
+        <input type="text" id="q1-1"> h
+        <div class="correction-msg">Réponse : 1,75</div>
+    </div>
+    
+    <div class="question">
+        <label>1.2) Convertir 0,4 heure en minutes :</label>
+        <input type="text" id="q1-2"> min
+        <div class="correction-msg">Réponse : 24</div>
+    </div>
+    
+    <div class="question">
+        <label>1.3) Convertir 45 secondes en heures décimales (3 chiffres après virgule) :</label>
+        <input type="text" id="q1-3"> h
+        <div class="correction-msg">Réponse : 0,012 ou 0,013</div>
+    </div>
+    
+    <div class="question">
+        <label>1.4) Convertir 2,6 heures en Heures et Minutes :</label>
+        <input type="number" id="q1-4-h" style="width:50px" placeholder="H"> h 
+        <input type="number" id="q1-4-m" style="width:50px" placeholder="Min"> min
+        <div class="correction-msg">Réponse : 2h 36min</div>
+    </div>
+
+    <h2>2. Planification d'Itinéraire (6 pts)</h2>
+    <div class="consigne">Trajet : 315 km | Vitesse moy : 70 km/h | Départ : 08h00 | <strong>Pause obligatoire : 45 min</strong></div>
+
+    <div class="question">
+        <label>2.1) Temps de conduite pur (en heures décimales) :</label>
+        <input type="text" id="q2-1"> h
+        <div class="correction-msg">Réponse : 4,5</div>
+    </div>
+
+    <div class="question">
+        <label>2.2) Temps de conduite (Heures + Minutes) :</label>
+        <input type="number" id="q2-2-h" style="width:50px"> h 
+        <input type="number" id="q2-2-m" style="width:50px"> min
+        <div class="correction-msg">Réponse : 4h 30min</div>
+    </div>
+
+    <div class="question">
+        <label>2.3) Heure d'arrivée chez le client (Format hh:mm) :</label>
+        <input type="text" id="q2-3" placeholder="Ex: 14h00">
+        <div class="correction-msg">Réponse : 13h15 (N'oubliez pas la pause !)</div>
+    </div>
+
+    <h2>3. Analyse de Vitesse (5 pts)</h2>
+    <div class="consigne">Vous avez fait 18 km en 15 minutes.</div>
+
+    <div class="question">
+        <label>3.1) Quelle est votre vitesse moyenne (km/h) ?</label>
+        <input type="text" id="q3-1"> km/h
+        <div class="correction-msg">Réponse : 72 km/h</div>
+    </div>
+
+    <div class="question">
+        <label>3.2) À cette vitesse, combien de temps pour faire 252 km (en heures décimales) ?</label>
+        <input type="text" id="q3-2"> h
+        <div class="correction-msg">Réponse : 3,5 h</div>
+    </div>
+
+    <h2>4. Coûts et Rentabilité (5 pts)</h2>
+    <div class="consigne">6000 km parcourus | 1800 Litres consommés | Gasoil à 1,60 €/L</div>
+
+    <div class="question">
+        <label>4.1) Consommation moyenne aux 100 km (L/100) :</label>
+        <input type="text" id="q4-1"> L/100
+        <div class="correction-msg">Réponse : 30 L/100</div>
+    </div>
+
+    <div class="question">
+        <label>4.2) Coût total du carburant (Euros) :</label>
+        <input type="text" id="q4-2"> €
+        <div class="correction-msg">Réponse : 2880 €</div>
+    </div>
+
+    <div class="zone-validation">
+        <p>Avez-vous bien relu ? Cliquez ci-dessous pour obtenir votre note.</p>
+        <button id="btn-valider" onclick="corriger()">✅ VALIDER ET NOTER MA COPIE</button>
+    </div>
+
+    <div id="resultat-final">
+        NOTE FINALE :
+        <span class="note-xxl" id="note-display">--/20</span>
+        <div id="appreciation"></div>
+    </div>
+
+</div>
+
+<script>
+    function corriger() {
+        let note = 0;
+
+        // Fonction pour nettoyer les saisies (remplace virgule par point, enlève espaces)
+        function clean(val) {
+            if(!val) return 0;
+            return parseFloat(val.toString().replace(',', '.').replace('h', '').replace('min', '').trim());
+        }
+
+        // Vérification Nombre avec tolérance
+        function check(id, expected, points) {
+            let el = document.getElementById(id);
+            let val = clean(el.value);
+            let msg = el.nextElementSibling;
+            
+            // Tolérance de 0.1
+            if(val >= expected - 0.1 && val <= expected + 0.1) {
+                el.className = "correct";
+                note += points;
+            } else {
+                el.className = "incorrect";
+                msg.style.display = "block";
+            }
+        }
+
+        // Vérification Texte (Heure arrivée)
+        function checkTxt(id, validArr, points) {
+            let el = document.getElementById(id);
+            let val = el.value.toLowerCase().replace(/\s/g, '').replace('h', ':');
+            let msg = el.nextElementSibling;
+            let isGood = false;
+            validArr.forEach(v => { if(val.includes(v)) isGood = true; });
+
+            if(isGood) {
+                el.className = "correct";
+                note += points;
+            } else {
+                el.className = "incorrect";
+                msg.style.display = "block";
+            }
+        }
+
+        // Vérification Heure/Minute séparées
+        function checkHM(idH, idM, expH, expM, points) {
+            let elH = document.getElementById(idH);
+            let elM = document.getElementById(idM);
+            let vH = clean(elH.value);
+            let vM = clean(elM.value);
+            let msg = elM.nextElementSibling; // msg est après les minutes
+
+            if(vH === expH && vM === expM) {
+                elH.className = "correct";
+                elM.className = "correct";
+                note += points;
+            } else {
+                elH.className = "incorrect";
+                elM.className = "incorrect";
+                msg.style.display = "block";
+            }
+        }
+
+        // --- CORRECTIONS ---
+        
+        // Partie 1 (4pts)
+        check('q1-1', 1.75, 1);
+        check('q1-2', 24, 1);
+        check('q1-3', 0.0125, 1); // Accepte 0.012 ou 0.013 grace à la tolérance
+        checkHM('q1-4-h', 'q1-4-m', 2, 36, 1);
+
+        // Partie 2 (6pts)
+        check('q2-1', 4.5, 2);
+        checkHM('q2-2-h', 'q2-2-m', 4, 30, 2);
+        checkTxt('q2-3', ['13:15', '13h15'], 2);
+
+        // Partie 3 (5pts)
+        check('q3-1', 72, 2.5);
+        check('q3-2', 3.5, 2.5);
+
+        // Partie 4 (5pts)
+        check('q4-1', 30, 2.5);
+        check('q4-2', 2880, 2.5);
+
+        // Affichage
+        let resDiv = document.getElementById('resultat-final');
+        let noteDisp = document.getElementById('note-display');
+        let apprec = document.getElementById('appreciation');
+        
+        resDiv.style.display = "block";
+        noteDisp.innerText = note + "/20";
+
+        if(note >= 16) apprec.innerHTML = "🏆 EXCELLENT TRAVAIL !";
+        else if(note >= 10) apprec.innerHTML = "✅ MOYENNE VALIDÉE.";
+        else apprec.innerHTML = "⚠️ À REVOIR (Regardez les corrections en rouge).";
+
+        // Scroll automatique vers le bas
+        resDiv.scrollIntoView({behavior: "smooth"});
+    }
+</script>
+
+</body>
+</html>
