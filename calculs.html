@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TP Numérique : Calculs de Transport</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { background-color: #3498db; color: white; padding: 10px; border-radius: 5px; margin-top: 30px; }
+        .consigne { font-style: italic; color: #555; background: #e8f4fd; padding: 10px; border-left: 4px solid #3498db; margin-bottom: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: #ecf0f1; }
+        
+        input[type="text"], input[type="number"], select {
+            padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 80%; font-size: 14px;
+        }
+        
+        /* Styles pour la correction */
+        .correct { background-color: #d4edda !important; border-color: #28a745 !important; color: #155724; }
+        .incorrect { background-color: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+        
+        button#btn-corriger {
+            display: block; width: 100%; padding: 15px; background-color: #28a745; color: white; 
+            font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top: 30px;
+            font-weight: bold; transition: 0.3s;
+        }
+        button#btn-corriger:hover { background-color: #218838; }
+
+        .feedback { display: none; margin-top: 10px; font-weight: bold; text-align: center; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚛 TP : Calculs Professionnels Transport</h1>
+    <p>Ce TP numérique valide vos compétences sur les conversions, le calcul d'itinéraire et la consommation.</p>
+
+    <h2>⏱️ Partie 1 : Échauffement (Les Conversions)</h2>
+    <div class="consigne">Objectif : Maîtriser le passage du temps "horloge" au temps "calculatrice". Remplissez les cases manquantes.</div>
+    
+    <table>
+        <tr>
+            <th>Temps "Horloge"</th>
+            <th>Calcul (Opération)</th>
+            <th>Temps "Décimal" (h)</th>
+        </tr>
+        <tr>
+            <td>0h 30 min</td>
+            <td>30 ÷ 60</td>
+            <td>0,5 h</td>
+        </tr>
+        <tr>
+            <td>0h 15 min</td>
+            <td><input type="text" id="p1-c1" placeholder="Ex: 15 / 60"></td>
+            <td><input type="text" id="p1-r1" placeholder="Ex: 0,25"> h</td>
+        </tr>
+        <tr>
+            <td>0h 45 min</td>
+            <td><input type="text" id="p1-c2" placeholder="Opération ?"></td>
+            <td><input type="text" id="p1-r2" placeholder="Résultat ?"> h</td>
+        </tr>
+        <tr>
+            <td>1h 12 min</td>
+            <td>1 + (12 ÷ 60)</td>
+            <td><input type="text" id="p1-r3"> h</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="p1-r4-h"> h <input type="text" id="p1-r4-m"> min</td>
+            <td>0,6 x 60 = 36</td>
+            <td>2,6 h</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="p1-r5-h"> h <input type="text" id="p1-r5-m"> min</td>
+            <td><input type="text" id="p1-c5" placeholder="0,75 x ..."></td>
+            <td>4,75 h</td>
+        </tr>
+    </table>
+
+    <h2>📍 Partie 2 : Préparation de l'Itinéraire (L'Aller)</h2>
+    <div class="consigne">
+        Mission : Paris -> Bordeaux (585 km). Vitesse estimée : 75 km/h. Départ : 06h00.
+    </div>
+
+    <p><strong>1. Quelle formule utiliser pour calculer le TEMPS ?</strong></p>
+    <select id="p2-q1">
+        <option value="">-- Choisir la formule --</option>
+        <option value="faux1">Temps = Distance x Vitesse</option>
+        <option value="vrai">Temps = Distance ÷ Vitesse</option>
+        <option value="faux2">Temps = Vitesse ÷ Distance</option>
+    </select>
+
+    <p><strong>2. Calculez la durée du trajet en heures décimales :</strong></p>
+    <input type="text" id="p2-q2" placeholder="Ex: 6,5"> heures.
+
+    <p><strong>3. Convertissez cette durée en heures et minutes :</strong></p>
+    <input type="number" id="p2-q3-h" style="width:50px"> h <input type="number" id="p2-q3-m" style="width:50px"> min.
+
+    <p><strong>4. À quelle heure arriverez-vous (ETA) ?</strong></p>
+    <input type="text" id="p2-q4" placeholder="Format hh:mm (ex: 14h30)">
+
+    <h2>🔄 Partie 3 : Contrôle de Cohérence (Le Retour)</h2>
+    <div class="consigne">Retour à vide (585 km) réalisé en 7h 48 min.</div>
+
+    <p><strong>1. Convertissez 7h 48 min en heures décimales :</strong></p>
+    <input type="text" id="p3-q1"> h.
+
+    <p><strong>2. Calculez la vitesse moyenne retour (km/h) :</strong></p>
+    <input type="text" id="p3-q2"> km/h.
+
+    <p><strong>3. Comparez avec l'aller (75 km/h). Est-ce logique ?</strong></p>
+    <select id="p3-q3">
+        <option value="">-- Votre analyse --</option>
+        <option value="non">Non, ce n'est pas logique, j'aurais dû aller plus vite.</option>
+        <option value="oui">Oui logique, c'est la même vitesse moyenne.</option>
+        <option value="bizarre">C'est bizarre car je suis à vide, j'aurais pu rouler mieux.</option>
+    </select>
+
+    <h2>⛽ Partie 4 : Rentabilité (Carburant)</h2>
+    <div class="consigne">Objectif : Descendre sous les 32 L / 100 km.<br>Données : 2450 km parcourus pour 760 Litres remis.</div>
+
+    <p><strong>1. Quelle est la formule de la consommation aux 100 km ?</strong></p>
+    <select id="p4-q1">
+        <option value="">-- Choisir la formule --</option>
+        <option value="vrai">(Litres x 100) ÷ Distance</option>
+        <option value="faux1">Litres ÷ Distance</option>
+        <option value="faux2">(Distance x 100) ÷ Litres</option>
+    </select>
+
+    <p><strong>2. Calculez votre consommation moyenne :</strong></p>
+    <input type="text" id="p4-q2"> L / 100 km.
+
+    <p><strong>3. Avez-vous droit à la prime (< 32L) ?</strong></p>
+    <select id="p4-q3">
+        <option value="">-- Réponse --</option>
+        <option value="oui">OUI</option>
+        <option value="non">NON</option>
+    </select>
+
+    <button id="btn-corriger" onclick="verifierReponses()">✅ VALIDER MES RÉPONSES</button>
+    <div id="feedback-global" class="feedback"></div>
+
+</div>
+
+<script>
+    function verifierReponses() {
+        let score = 0;
+        let total = 16; // Nombre de champs à vérifier
+
+        // Fonction pour nettoyer l'entrée (remplace virgule par point)
+        function clean(id) {
+            let val = document.getElementById(id).value.replace(',', '.').replace('h', '').trim();
+            return parseFloat(val);
+        }
+
+        // Fonction pour vérifier texte exact ou approchant
+        function checkText(id, correctVal) {
+            let el = document.getElementById(id);
+            let val = el.value.toLowerCase().replace(/\s/g, '').replace(',', '.'); // enlève espaces
+            // On vérifie si la valeur de l'élève contient les éléments clés de la réponse
+            if (val.includes(correctVal)) {
+                el.className = "correct";
+                score++;
+            } else {
+                el.className = "incorrect";
+            }
+        }
+
+        // Fonction pour vérifier nombre (avec tolérance)
+        function checkNum(id, correctVal) {
+            let el = document.getElementById(id);
+            let val = clean(id);
+            if (val >= correctVal - 0.1 && val <= correctVal + 0.1) {
+                el.className = "correct";
+                score++;
+            } else {
+                el.className = "incorrect";
+            }
+        }
+
+        // --- VERIFICATIONS ---
+
+        // Partie 1
+        checkText('p1-c1', '15/60'); // 15 divisé par 60
+        checkNum('p1-r1', 0.25);
+        checkText('p1-c2', '45/60');
+        checkNum('p1-r2', 0.75);
+        checkNum('p1-r3', 1.2);
+        
+        // Pour 2,6h -> 2h 36min
+        let p1r4h = document.getElementById('p1-r4-h');
+        let p1r4m = document.getElementById('p1-r4-m');
+        if(p1r4h.value == 2 && p1r4m.value == 36) { p1r4h.className = "correct"; p1r4m.className="correct"; score++; } 
+        else { p1r4h.className = "incorrect"; p1r4m.className="incorrect"; }
+
+        // Pour 4,75h -> 4h 45min
+        let p1r5h = document.getElementById('p1-r5-h');
+        let p1r5
