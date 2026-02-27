@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>TP Mission Transport - Version Pédagogique</title>
+<style>
+body{font-family:Arial;background:#f4f6f8;padding:20px}
+h1,h2{color:#1f4e79}
+.section{background:white;padding:20px;margin-bottom:30px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+table{border-collapse:collapse;width:100%;margin-top:10px}
+th,td{border:1px solid #ccc;padding:8px;text-align:center}
+th{background:#1f4e79;color:white}
+input{padding:6px;width:110px}
+button{padding:10px 15px;background:#1f4e79;color:white;border:none;border-radius:6px;cursor:pointer;margin-top:15px}
+button:hover{background:#163a5c}
+.locked input{background:#ddd}
+.teacher{display:none;background:#fff3cd;padding:15px;border-radius:8px;margin-top:20px}
+img{max-width:320px;margin-top:15px;border-radius:8px}
+.badge{display:inline-block;padding:6px 10px;background:#1f4e79;color:white;border-radius:20px;margin:5px;font-size:13px}
+</style>
+</head>
+<body>
+
+<h1>🚛 TP NUMÉRIQUE – Organisation d'une Mission Transport</h1>
+
+<div class="section">
+<h2>📌 Situation Professionnelle</h2>
+<p>Vous êtes conducteur chez <strong>Provence Fret Logistique</strong> (Miramas).</p>
+<p>Mission : Livraison Miramas → Lyon via A7.</p>
+
+<h3>Compétences mobilisées</h3>
+<span class="badge">C1.2 – Calcul durée / vitesse</span>
+<span class="badge">C1.2 – Préparation itinéraire</span>
+<span class="badge">C3.3 – Éco-conduite</span>
+
+<h3>Repère Formule Transport</h3>
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Distance_speed_time_triangle.png">
+<p><strong>Rappel :</strong> D = V × T &nbsp;&nbsp; V = D ÷ T &nbsp;&nbsp; T = D ÷ V</p>
+</div>
+
+<div class="section">
+<h2>🔢 Partie 1 – Conversion Temps (Chronotachygraphe)</h2>
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Digital_tachograph.jpg">
+<table>
+<tr><th>Temps Horloge</th><th>Temps Décimal</th></tr>
+<tr><td>0h45</td><td><input id="c1"></td></tr>
+<tr><td>1h30</td><td><input id="c2"></td></tr>
+<tr><td>2h12</td><td><input id="c3"></td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>🛣 Partie 2 – Calcul Durée de Trajet</h2>
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Autoroute_A7_France.jpg">
+<table>
+<tr><th>Distance</th><th>Vitesse Moyenne</th><th>Départ</th></tr>
+<tr><td>315 km</td><td>70 km/h</td><td>05h30</td></tr>
+</table>
+
+Durée (h décimales) : <input id="d1"><br>
+Heure d'arrivée : <input id="d2"><br>
+Arrivée avec pause 45 min : <input id="d3"><br>
+</div>
+
+<div class="section">
+<h2>⛽ Partie 3 – Analyse Consommation</h2>
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Fuel_pump_nozzles.jpg">
+<table>
+<tr><th>Kilométrage</th><th>Carburant</th><th>Objectif</th></tr>
+<tr><td>3200 km</td><td>928 L</td><td>&lt; 29 L / 100 km</td></tr>
+</table>
+
+Consommation moyenne : <input id="e1"><br>
+Prime obtenue ? (oui/non) : <input id="e2"><br>
+</div>
+
+<button onclick="verifier()">Valider</button>
+<button onclick="modeEnseignant()">Mode Enseignant</button>
+
+<div class="teacher" id="correction">
+<h3>🔒 Correction</h3>
+0h45 = 0.75 h<br>
+1h30 = 1.5 h<br>
+2h12 = 2.2 h<br>
+Durée trajet = 4.5 h<br>
+Arrivée = 10h00<br>
+Arrivée pause = 10h45<br>
+Conso = 29 L/100km<br>
+Prime = NON
+</div>
+
+<script>
+function verifier(){
+let score=0;
+
+if(Math.abs(document.getElementById("c1").value-0.75)<0.05) score++;
+if(Math.abs(document.getElementById("c2").value-1.5)<0.05) score++;
+if(Math.abs(document.getElementById("c3").value-2.2)<0.05) score++;
+if(Math.abs(document.getElementById("d1").value-4.5)<0.1) score++;
+if(document.getElementById("d2").value=="10h00") score++;
+if(document.getElementById("d3").value=="10h45") score++;
+if(Math.abs(document.getElementById("e1").value-29)<0.5) score++;
+if(document.getElementById("e2").value.toLowerCase()=="non") score++;
+
+alert("Score : "+score+" / 8");
+
+document.body.classList.add("locked");
+let inputs=document.querySelectorAll("input");
+inputs.forEach(input=>input.disabled=true);
+}
+
+function modeEnseignant(){
+let code=prompt("Code enseignant :");
+if(code==="CR2026"){
+document.getElementById("correction").style.display="block";
+}else{
+alert("Code incorrect");
+}
+}
+</script>
+
+</body>
+</html>
